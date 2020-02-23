@@ -1,234 +1,236 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<androidx.core.widget.NestedScrollView
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fillViewport="true"
-    >
+    android:layout_height="match_parent">
 
-    <LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".Activity.CheckoutActivity">
-
-    <RelativeLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
         >
-        <ImageView
-            android:id="@+id/checkout_img"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="#f0fc"
-            android:layout_margin="8dp"
-            />
-        <TextView
-            android:id="@+id/checkout_shop_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="NAME"
-            android:textStyle="bold"
-            android:layout_toEndOf="@id/checkout_img"
-            android:layout_marginTop="16dp"
-            />
-        <TextView
-            android:id="@+id/checkout_shop_locality"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Locality"
-            android:layout_toEndOf="@id/checkout_img"
-            android:layout_below="@id/checkout_shop_name"
-            android:layout_marginStart="8dp"
-            />
-    </RelativeLayout>
-    <ListView
-        android:id="@+id/checkout_item_listView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:listitem="@layout/checkout_item_todo"
-        />
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#000"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Bill Details"
-        android:textColor="#000"
-        android:layout_marginStart="16dp"
-        />
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginStart="16dp"
-        >
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Total Price"
-            />
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:layout_weight="1"
-            />
-        <TextView
-            android:id="@+id/checkout_full_price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="₹5000"
-            android:layout_marginEnd="16dp"
-            />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginStart="16dp"
-        >
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Dilevery Charges"
-            />
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:layout_weight="1"
-            />
-        <TextView
-            android:id="@+id/checkout_deliveryPrice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="₹65"
-            android:layout_marginEnd="16dp"
-            />
-    </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#000"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        />
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginStart="16dp"
-        >
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="To Pay"
-            android:textColor="#000"
-            />
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:layout_weight="1"
-            />
-        <TextView
-            android:id="@+id/checkout_total_price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="₹5065"
-            android:layout_marginEnd="16dp"
-            />
-    </LinearLayout>
         <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        tools:context=".Activity.CheckoutActivity">
+
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             >
+            <ImageView
+                android:id="@+id/checkout_img"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="#f0fc"
+                android:layout_margin="8dp"
+                />
+            <TextView
+                android:id="@+id/checkout_shop_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="NAME"
+                android:textStyle="bold"
+                android:layout_toEndOf="@id/checkout_img"
+                android:layout_marginTop="16dp"
+                />
+            <TextView
+                android:id="@+id/checkout_shop_locality"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Locality"
+                android:layout_toEndOf="@id/checkout_img"
+                android:layout_below="@id/checkout_shop_name"
+                android:layout_marginStart="8dp"
+                />
+        </RelativeLayout>
+        <ListView
+            android:id="@+id/checkout_item_listView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:listitem="@layout/checkout_item_todo"
+            />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#000"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bill Details"
+            android:textColor="#000"
+            android:layout_marginStart="16dp"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginStart="16dp"
+            >
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Address For Delivery"
-                android:layout_marginStart="16dp"
+                android:text="Total Price"
+                />
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1"
                 />
             <TextView
-                android:layout_width="match_parent"
+                android:id="@+id/checkout_full_price"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:maxLines="2"
+                android:text="₹5000"
                 android:layout_marginEnd="16dp"
-                android:layout_marginStart="16dp"
                 />
         </LinearLayout>
-        <TextView
-            android:id="@+id/checkout_addressChangeBtn"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="change address"
-            android:layout_gravity="end"
+            android:orientation="horizontal"
+            android:layout_marginStart="16dp"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Dilevery Charges"
+                />
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1"
+                />
+            <TextView
+                android:id="@+id/checkout_deliveryPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="₹65"
+                android:layout_marginEnd="16dp"
+                />
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#000"
+            android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:textColor="#00BCD4"
             />
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="32dp"
+            >
             <TextView
-                android:id="@+id/checkout_payBtn"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="PAY"
-                android:gravity="center_horizontal"
-                android:textSize="18sp"
-                android:textColor="#fff"
-                android:background="@drawable/curved_buttons"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
-                android:layout_marginStart="50dp"
-                android:layout_marginEnd="50dp"
+                android:text="To Pay"
+                android:textColor="#000"
+                />
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1"
                 />
             <TextView
-                android:id="@+id/checkout_cashBtn"
+                android:id="@+id/checkout_total_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="₹5065"
+                android:layout_marginEnd="16dp"
+                />
+        </LinearLayout>
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="COD"
-                android:gravity="center_horizontal"
-                android:textSize="18sp"
-                android:textColor="#fff"
-                android:background="@drawable/curved_buttons"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
-                android:layout_marginStart="50dp"
-                android:layout_marginEnd="50dp"
-                android:visibility="gone"
-                />
+                android:orientation="horizontal"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Address For Delivery"
+                    android:layout_marginStart="16dp"
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="2"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginStart="16dp"
+                    />
+            </LinearLayout>
             <TextView
-                android:id="@+id/checkout_cardBtn"
-                android:layout_width="match_parent"
+                android:id="@+id/checkout_addressChangeBtn"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="CARD"
-                android:gravity="center_horizontal"
-                android:textSize="18sp"
-                android:textColor="#fff"
-                android:background="@drawable/curved_buttons"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
-                android:layout_marginStart="50dp"
-                android:layout_marginEnd="50dp"
-                android:visibility="gone"
+                android:text="change address"
+                android:layout_gravity="end"
+                android:layout_marginEnd="16dp"
+                android:textColor="#00BCD4"
                 />
-        </RelativeLayout>
 
-    </LinearLayout>
-
-</androidx.core.widget.NestedScrollView>
+        </LinearLayout>
+    </ScrollView>
+    <TextView
+        android:id="@+id/checkout_payBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="PAY"
+        android:gravity="center_horizontal"
+        android:textSize="18sp"
+        android:textColor="#fff"
+        android:background="@drawable/curved_buttons"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
+        android:layout_gravity="bottom"
+        />
+    <TextView
+        android:id="@+id/checkout_cashBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="COD"
+        android:gravity="center_horizontal"
+        android:textSize="18sp"
+        android:textColor="#fff"
+        android:background="@drawable/curved_buttons"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
+        android:visibility="gone"
+        android:layout_gravity="bottom"
+        />
+    <TextView
+        android:id="@+id/checkout_cardBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="CARD"
+        android:gravity="center_horizontal"
+        android:textSize="18sp"
+        android:textColor="#fff"
+        android:background="@drawable/curved_buttons"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
+        android:visibility="gone"
+        android:layout_gravity="bottom"
+        />
+</FrameLayout>

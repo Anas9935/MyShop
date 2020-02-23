@@ -45,7 +45,6 @@ public class itemAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        Boolean isOpen=false;
         final int[] quant = {0};
         if(view==null){
             view=LayoutInflater.from(context).inflate(R.layout.item_todo,viewGroup,false);
@@ -67,6 +66,7 @@ public class itemAdapter extends BaseAdapter {
         stockSize.setText(String.valueOf(current.getQuantity()));
         DOM.setText(UtilityClass.getDate(current.getTimestamp()));
         price.setText(String.valueOf(current.getPrice()));
+
 
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override

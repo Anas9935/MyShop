@@ -1,13 +1,18 @@
 package com.example.myshop.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.ViewCompat;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.OvershootInterpolator;
+import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.myshop.Adapters.CheckoutItemAdapter;
 import com.example.myshop.Objects.itemObject;
@@ -28,6 +33,7 @@ public class CheckoutActivity extends AppCompatActivity {
     TextView shop_name,shop_address,fullPrice,dilerveryPrice,totalPrice,changeAddressBtn,payBtn,codBtn,cardBtn;
     ImageView shop_img;
 
+    boolean isPayOpened=false;
 
 
 
@@ -50,6 +56,64 @@ public class CheckoutActivity extends AppCompatActivity {
                 Log.e("CheckOutActivity", "onClick: change Btn Clicked" );
             }
         });
+        
+        payBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(isPayOpened){
+                    isPayOpened=false;
+                    closePayBtn();
+                }else{
+                    isPayOpened=true;
+                    openPayBtn();
+                }
+            }
+        });
+
+        codBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(CheckoutActivity.this,BillActivity.class);
+                intent.putExtra("cart",cart);
+                startActivity(intent);
+
+                saveNdUpdate();
+            }
+        });
+
+        cardBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(CheckoutActivity.this, "Not Created yet", Toast.LENGTH_SHORT).show();
+            }
+        });
+        
+    }
+
+    private void saveNdUpdate() {
+        //create the request and update the quantity of the ordered items
+
+    }
+
+    private void openPayBtn() {
+        cardBtn.setVisibility(View.VISIBLE);
+        codBtn.setVisibility(View.VISIBLE);
+
+        OvershootInterpolator interpolator=new OvershootInterpolator(10.0F);
+        codBtn.animate().translationY(-200).setDuration(150).withLayer().setInterpolator(interpolator).start();
+        cardBtn.animate().translationY(-400).setDuration(200).withLayer().setInterpolator(interpolator).start();
+        Log.e("This", "openPayBtn: "+"isopened" );
+        //ViewCompat.animate(payBtn).rotation(135.0F).withLayer().setDuration(300).setInterpolator(interpolator).start();
+    }
+
+    private void closePayBtn() {
+        cardBtn.setVisibility(View.GONE);
+        codBtn.setVisibility(View.GONE);
+
+        OvershootInterpolator interpolator=new OvershootInterpolator(10.0F);
+        codBtn.animate().translationY(0).setDuration(150).setInterpolator(interpolator).start();
+        cardBtn.animate().translationY(0).setDuration(200).setInterpolator(interpolator).start();
+        Log.e("thar", "closePayBtn: is closed" );
     }
 
     private void initializeViews() {
@@ -70,6 +134,8 @@ public class CheckoutActivity extends AppCompatActivity {
             itemObject obj=getItemObject(i.getKey().toString());
             if(obj!=null){
                 itemList.add(obj);
+            }else{
+                Log.e("Checkout", "fetchList: "+"Item detail cant be fetched from server" );
             }
         }
 //        Log.e("checkout", "fetchList: "+itemList.size() );

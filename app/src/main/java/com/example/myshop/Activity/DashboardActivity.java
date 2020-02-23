@@ -1,16 +1,29 @@
 package com.example.myshop.Activity;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.DownloadManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.myshop.Adapters.shopAdapter;
 import com.example.myshop.Objects.ShopObject;
 import com.example.myshop.R;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -20,6 +33,9 @@ public class DashboardActivity extends AppCompatActivity {
     ListView shop_list;
     ArrayList<ShopObject> list;
     shopAdapter adapter;
+
+    RequestQueue queue;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -27,6 +43,8 @@ public class DashboardActivity extends AppCompatActivity {
         setContentView(R.layout.activity_dashboard);
 
         initializeViews();
+        queue= Volley.newRequestQueue(this);
+
         list=new ArrayList<>();
         adapter=new shopAdapter(list,this);
         fetchList();
@@ -44,11 +62,53 @@ public class DashboardActivity extends AppCompatActivity {
     }
 
     private void fetchList() {
+
+        String url="https://ravilcartapi.herokuapp.com/getshops";
+        StringRequest request=new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                //Log.e("this", "onResponse: "+response );
+                try{
+                    JSONObject obj=new JSONObject(response);
+                    JSONArray u=obj.getJSONArray("u");
+                    for(int i=0;i<u.length();i++){
+                        JSONObject current=u.getJSONObject(i);
+                        JSONArray itemArray=current.getJSONArray("items");
+                        String id=current.getString("_id");
+                        String mail=current.getString("email");
+                        long con=current.getLong("number");
+                        double rat=0;
+                        try{
+                            rat=current.getDouble("rating");
+                        }catch (JSONException e){
+                            e.printStackTrace();
+                        }
+                        String local=current.getString("address");
+                        String nm=current.getString("name");
+                        ShopObject o=new ShopObject(id,nm,local,null,0L,mail,con,(float)rat);
+                        Log.e("this", "onResponse: "+"item added "+id);
+                        list.add(o);
+                        adapter.notifyDataSetChanged();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(DashboardActivity.this, "Error! Refresh after few Minutes", Toast.LENGTH_SHORT).show();
+            }
+        });
+    queue.add(request);
+
+
+
         ShopObject dummy1=new ShopObject("SID","New Shop","Bharat nagar","New Delhi",110025L,"aanasari9999@gamil.com",99353380207L,3.5f);
         ShopObject dummy2=new ShopObject("SID2","New Shop two","Okhla","New Delhi",110025L,"aanasari9999@gamil.com",99353380207L,4.5f);
-        list.add(dummy1);
-        list.add(dummy2);
-        adapter.notifyDataSetChanged();
+        //list.add(dummy1);
+        //list.add(dummy2);
+        ///adapter.notifyDataSetChanged();
     }
 
 

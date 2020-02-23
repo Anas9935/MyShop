@@ -64,6 +64,7 @@ public class CheckoutItemAdapter extends BaseAdapter {
         if(quantity!=null){
             price.setText(String.valueOf(totalPrice*quantity));
             quant[0]=quantity;
+
         }
         plus.setOnClickListener(new View.OnClickListener() {
             @Override
