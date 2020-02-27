@@ -14,26 +14,44 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.myshop.Adapters.CheckoutItemAdapter;
 import com.example.myshop.Objects.itemObject;
 import com.example.myshop.R;
 import com.example.myshop.UtilityClass;
+import com.google.firebase.auth.FirebaseAuth;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 public class CheckoutActivity extends AppCompatActivity {
 
     public static HashMap<String,Integer> cart;
+    String sid;
     ListView itemListView;
     ArrayList<itemObject> itemList;
     CheckoutItemAdapter adapter;
 
     TextView shop_name,shop_address,fullPrice,dilerveryPrice,totalPrice,changeAddressBtn,payBtn,codBtn,cardBtn;
     ImageView shop_img;
+    float grandTotal=0;
 
     boolean isPayOpened=false;
+
+    RequestQueue queue;
 
 
 
@@ -43,8 +61,10 @@ public class CheckoutActivity extends AppCompatActivity {
         setContentView(R.layout.activity_checkout);
 
         cart=(HashMap<String, Integer>) getIntent().getSerializableExtra("cart");
+        sid=getIntent().getStringExtra("sid");
         //Log.e("checkout", "onCreate: "+cart );
         initializeViews();
+        queue= Volley.newRequestQueue(this);
         itemList=new ArrayList<>();
         adapter=new CheckoutItemAdapter(itemList,this);
         itemListView.setAdapter(adapter);
@@ -54,6 +74,7 @@ public class CheckoutActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Log.e("CheckOutActivity", "onClick: change Btn Clicked" );
+                Log.e("THis", "onClick: "+"Not yet implemented" );
             }
         });
         
@@ -73,11 +94,16 @@ public class CheckoutActivity extends AppCompatActivity {
         codBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(CheckoutActivity.this,BillActivity.class);
-                intent.putExtra("cart",cart);
-                startActivity(intent);
 
-                saveNdUpdate();
+                int otp=getOtp();
+                if(grandTotal!=0) {
+                    saveNdUpdate(otp);
+                    }
+                else{
+                    Toast.makeText(CheckoutActivity.this, "Data is not loaded yet", Toast.LENGTH_SHORT).show();
+                }
+
+
             }
         });
 
@@ -90,9 +116,61 @@ public class CheckoutActivity extends AppCompatActivity {
         
     }
 
-    private void saveNdUpdate() {
-        //create the request and update the quantity of the ordered items
+    private int getOtp() {
+        Random random=new Random();
+        int randInt=random.nextInt(90000);
+        int otp=randInt+9999;
+        return otp;
+    }
 
+    private void saveNdUpdate(final int otp) {
+        //create the request and update the quantity of the ordered items
+        JSONObject jsonObject=new JSONObject();
+        try {
+            JSONArray jsonCart=new JSONArray();
+            for(Map.Entry i:cart.entrySet()){
+                JSONObject innerObj=new JSONObject();
+                innerObj.put("items",i.getKey().toString());
+                innerObj.put("quantity",i.getValue().toString());
+                jsonCart.put(innerObj);
+            }
+            jsonObject.put("cart",jsonCart);
+            jsonObject.put("amount",grandTotal);
+            jsonObject.put("userId", FirebaseAuth.getInstance().getUid());
+            jsonObject.put("shopId",sid);
+            jsonObject.put("typeOfPayment","COD");
+            jsonObject.put("otp",otp);
+            jsonObject.put("status",0);
+            jsonObject.put("timeOfOrder",System.currentTimeMillis());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        String url="https://ravilcartapi.herokuapp.com/userorder";
+        JsonObjectRequest req=new JsonObjectRequest(Request.Method.POST, url, jsonObject,
+                new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.e("Checkout", "onResponse: "+response.toString() );
+                Toast.makeText(CheckoutActivity.this, "Yay!! Order is received", Toast.LENGTH_SHORT).show();
+                    moveToNextActivity(otp);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(CheckoutActivity.this, "OOPs!Something went wrong. Retry", Toast.LENGTH_SHORT).show();
+            }
+        });
+        queue.add(req);
+    }
+
+    private void moveToNextActivity(int otp) {
+        Intent intent=new Intent(CheckoutActivity.this,BillActivity.class);
+        intent.putExtra("cart",cart);
+        intent.putExtra("payType",0);       //0->cod 1->card
+        intent.putExtra("otp",otp);
+        startActivity(intent);
+        finish();
     }
 
     private void openPayBtn() {
@@ -103,7 +181,6 @@ public class CheckoutActivity extends AppCompatActivity {
         codBtn.animate().translationY(-200).setDuration(150).withLayer().setInterpolator(interpolator).start();
         cardBtn.animate().translationY(-400).setDuration(200).withLayer().setInterpolator(interpolator).start();
         Log.e("This", "openPayBtn: "+"isopened" );
-        //ViewCompat.animate(payBtn).rotation(135.0F).withLayer().setDuration(300).setInterpolator(interpolator).start();
     }
 
     private void closePayBtn() {
@@ -169,6 +246,7 @@ public class CheckoutActivity extends AppCompatActivity {
         }
         dilerveryPrice.setText(String.valueOf(delivery));
         totalPrice.setText(String.valueOf(total+delivery));
+        grandTotal=total+delivery;
 
     }
 

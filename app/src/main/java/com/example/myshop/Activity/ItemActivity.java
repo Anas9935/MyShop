@@ -139,13 +139,14 @@ RequestQueue queue;
                         int qty=current.getInt("quantity");
                         String dt=current.getString("updatedAt");
                         long timeStamp=0;
+                        int type=current.getInt("type");
                         try {
                             timeStamp=UtilityClass.getDate(dt);
                         } catch (ParseException e) {
                             e.printStackTrace();
                         }
-                        itemObject obj=new itemObject(iid,itmName,qty,price,timeStamp,0,null);
-
+                        itemObject obj=new itemObject(iid,itmName,qty,price,timeStamp,type,null);
+                        itemList.add(obj);
                     }
 
                 }catch (JSONException e){
@@ -155,7 +156,7 @@ RequestQueue queue;
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                Log.e("ItemActivity", "onErrorResponse: "+error.toString() );
             }
         });
         queue.add(request);
