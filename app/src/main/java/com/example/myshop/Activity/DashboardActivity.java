@@ -1,6 +1,5 @@
 package com.example.myshop.Activity;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.DownloadManager;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,7 +9,6 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
-
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -18,7 +16,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.myshop.Adapters.shopAdapter;
-import com.example.myshop.Chat;
 import com.example.myshop.Objects.ShopObject;
 import com.example.myshop.R;
 import com.example.myshop.UserDetails;
@@ -56,7 +53,7 @@ public class DashboardActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 ShopObject current=list.get(i);
-                UserDetails.chatwithid=current.getSid();
+                UserDetails.userID=current.getSid();
                 Intent intent=new Intent(DashboardActivity.this, ItemActivity.class);
                 intent.putExtra("sid",current.getSid());
                 startActivity(intent);
@@ -103,7 +100,7 @@ public class DashboardActivity extends AppCompatActivity {
                 Toast.makeText(DashboardActivity.this, "Error! Refresh after few Minutes", Toast.LENGTH_SHORT).show();
             }
         });
-    queue.add(request);
+        queue.add(request);
 
 
 
@@ -113,8 +110,6 @@ public class DashboardActivity extends AppCompatActivity {
         //list.add(dummy2);
         ///adapter.notifyDataSetChanged();
     }
-
-
     private void initializeViews() {
         searchView=findViewById(R.id.dashboard_search);
         shop_list=findViewById(R.id.dashboard_list);

@@ -14,8 +14,10 @@ import android.widget.PopupMenu;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.example.myshop.Chat;
 import com.example.myshop.Objects.ShopObject;
 import com.example.myshop.R;
+import com.example.myshop.UserDetails;
 
 import java.util.ArrayList;
 
@@ -69,7 +71,8 @@ public class shopAdapter extends BaseAdapter {
                     @Override
                     public boolean onMenuItemClick(MenuItem menuItem) {
                         switch (menuItem.getItemId()){
-                            case R.id.dashboard_action_support:{
+                            case R.id.dashboard_action_support:
+                                {
                                 //goto message box with usedid and shop id
                                 break;
                             }
@@ -85,7 +88,13 @@ public class shopAdapter extends BaseAdapter {
                             case R.id.dashboard_action_Contact:{
                                 Intent intent=new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+current.getContact()));
                                 context.startActivity(intent);
-
+                                break;
+                            }
+                            case R.id.dashboard_action_Chat:
+                            {
+                                Intent intent =new Intent(context, Chat.class);
+                                intent.putExtra("sid", UserDetails.userID);
+                                context.startActivity(intent);
                                 break;
                             }
                         }

@@ -1,6 +1,6 @@
 package com.example.myshop.Objects;
-
-public class itemObject {
+public class itemObject
+{
     private String iid;
     private String name;
     private int quantity;
@@ -8,7 +8,6 @@ public class itemObject {
     private long timestamp;
     private int type;
     private String imgUrl;
-
     public itemObject(String iid, String name, int quantity, float price, long timestamp, int type, String imgUrl) {
         this.iid = iid;
         this.name = name;
