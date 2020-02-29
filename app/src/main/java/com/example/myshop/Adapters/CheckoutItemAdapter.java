@@ -1,7 +1,6 @@
 package com.example.myshop.Adapters;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +9,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.myshop.Activity.CheckoutActivity;
-import com.example.myshop.Activity.ItemActivity;
 import com.example.myshop.Objects.itemObject;
 import com.example.myshop.R;
 
@@ -62,8 +60,9 @@ public class CheckoutItemAdapter extends BaseAdapter {
 
         float totalPrice=current.getPrice();
         if(quantity!=null){
-            price.setText(String.valueOf(totalPrice*quantity));
+            price.setText(new StringBuilder().append("₹").append(totalPrice * quantity).toString());
             quant[0]=quantity;
+
         }
         plus.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,7 +74,7 @@ public class CheckoutItemAdapter extends BaseAdapter {
                     qty.setText(String.valueOf(quant[0]));
                     price.setText(new StringBuilder("₹").append(current.getPrice() * quant[0]));
                     CheckoutActivity.cart.put(current.getIid(),quant[0]);
-                    updateui();
+                    updateUi();
                 }
             }
         });
@@ -88,13 +87,13 @@ public class CheckoutItemAdapter extends BaseAdapter {
                     CheckoutActivity.cart.remove(current.getIid());
                     list.remove(current);
                     notifyDataSetChanged();
-                    updateui();
+                    updateUi();
                 }else{
                     quant[0]--;
                     qty.setText(String.valueOf(quant[0]));
                     price.setText(new StringBuilder("₹").append(current.getPrice() * quant[0]));
                     CheckoutActivity.cart.put(current.getIid(),quant[0]);
-                    updateui();
+                    updateUi();
                 }
             }
         });
@@ -104,10 +103,10 @@ public class CheckoutItemAdapter extends BaseAdapter {
         return view;
     }
 
-    private void updateui() {
+    private void updateUi() {
         ((CheckoutActivity)context).updateUI();
 //        if(context instanceof CheckoutActivity){
-//            Log.e("adapter", "updateui: " );
+//            Log.e("adapter", "updateUi: " );
 //            ((CheckoutActivity)context).updateUI();
 //        }
     }

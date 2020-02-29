@@ -43,7 +43,7 @@ public class signup_activity extends AppCompatActivity
             @Override
             public void onClick(View v) {
 
-                String email = inputEmail.getText().toString().trim();
+                final String email = inputEmail.getText().toString().trim();
                 String password = inputPassword.getText().toString().trim();
 
                 if (TextUtils.isEmpty(email)) {
@@ -73,7 +73,11 @@ public class signup_activity extends AppCompatActivity
                                     Toast.makeText(signup_activity.this, "Authentication failed" + task.getException(),
                                             Toast.LENGTH_SHORT).show();
                                 } else {
-                                    startActivity(new Intent(signup_activity.this, login_activity.class));
+                                    Intent intent=new Intent(signup_activity.this, signup2Activity.class);
+                                    intent.putExtra("uid",FirebaseAuth.getInstance().getUid());
+                                    intent.putExtra("email",email);
+                                    startActivity(intent);
+
                                     finish();
                                 }
                             }
