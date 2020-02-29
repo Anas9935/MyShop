@@ -1,11 +1,16 @@
 package com.example.myshop.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -48,19 +53,49 @@ public class shopAdapter extends BaseAdapter {
         RatingBar ratingBar=view.findViewById(R.id.shop_todo_rating_bar);
         ImageView menuBtn=view.findViewById(R.id.shop_todo_menuBtn);
 
-        ShopObject current=list.get(i);
+        final ShopObject current=list.get(i);
 
         name.setText(current.getShopName());
-        StringBuilder builder=new StringBuilder();
-        builder.append(current.getLocality()).append(", ").append(current.getCity());
-        builder.append(", ").append(String.valueOf(current.getPincode()));
-        address.setText(builder.toString());
+        String builder = current.getLocality() + ", " + current.getCity() +
+                ", " + current.getPincode();
+        address.setText(builder);
 
         ratingBar.setRating(current.getRating());
         menuBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                
+                PopupMenu popupMenu=new PopupMenu(context,view);
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        switch (menuItem.getItemId()){
+                            case R.id.dashboard_action_support:{
+                                //goto message box with usedid and shop id
+                                break;
+                            }
+                            case R.id.dashboard_action_email:{
+                                Intent intent=new Intent(Intent.ACTION_SENDTO);
+                                intent.setData(Uri.parse("mailto:"+current.getEmail()+
+                                        "?cc="+
+                                        "&subject=Customer Query From My Shop"));
+                                intent.putExtra(Intent.EXTRA_SUBJECT,"Customer Query From My Shop");
+                                context.startActivity(Intent.createChooser(intent,"Choose an App for Mailing"));
+                                break;
+                            }
+                            case R.id.dashboard_action_Contact:{
+                                Intent intent=new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+current.getContact()));
+                                context.startActivity(intent);
+
+                                break;
+                            }
+                        }
+                        return true;
+                    }
+                });
+                //MenuInflater inflater=popupMenu.getMenuInflater();
+                //inflater.inflate(R.menu.dashboard_list_item_menu,popupMenu.getMenu());
+                popupMenu.inflate(R.menu.dashboard_list_item_menu);
+                popupMenu.show();
             }
         });
 

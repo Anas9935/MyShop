@@ -7,13 +7,29 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.myshop.Adapters.itemAdapter;
+import com.example.myshop.Adapters.itemExpandableListAdapter;
 import com.example.myshop.Objects.itemObject;
 import com.example.myshop.R;
+import com.example.myshop.UtilityClass;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -25,6 +41,16 @@ ArrayList<itemObject> itemList;
 public static HashMap<String,Integer> cart;
 itemAdapter adapter;
 public static LinearLayout cartBtn;
+
+ExpandableListView explistview;
+ArrayList<String> topicName;
+HashMap<String,ArrayList<itemObject>> groupItems;
+itemExpandableListAdapter adapter2;
+
+RequestQueue queue;
+
+String shopName,shopAddress;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,11 +59,20 @@ public static LinearLayout cartBtn;
         sid=getIntent().getStringExtra("sid");
 
         initializeViews();
-        cart=new HashMap<String,Integer>();
+        queue= Volley.newRequestQueue(this);
+        cart= new HashMap<>();
         itemList=new ArrayList<>();
-        adapter=new itemAdapter(itemList,this);
+//        adapter=new itemAdapter(itemList,this);
+
+        topicName=new ArrayList<>();
+        groupItems=new HashMap<>();
+        helper();
+
+        adapter2=new itemExpandableListAdapter(topicName,groupItems,cart,this);
+        explistview.setAdapter(adapter2);
+
         fetchItems();
-        itemsLv.setAdapter(adapter);
+//        itemsLv.setAdapter(adapter);
         updateUi();
 
         cartBtn.setOnClickListener(new View.OnClickListener() {
@@ -46,10 +81,35 @@ public static LinearLayout cartBtn;
                 Intent intent=new Intent(ItemActivity.this,CheckoutActivity.class);
                 intent.putExtra("sid",sid);
                 intent.putExtra("cart",cart);
+                intent.putExtra("shopName",shopName);
+                intent.putExtra("shopAddress",shopAddress);
                 startActivity(intent);
                 Log.e("CArtBtn", "onClick: "+cart.entrySet() );
             }
         });
+    }
+
+    private void helper() {
+
+        topicName.add("Pulses");
+        topicName.add("Essentials");
+        ArrayList<itemObject> l= UtilityClass.getList();
+
+        for(String i:topicName){
+            groupItems.put(i,new ArrayList<itemObject>());
+        }
+
+
+        for(itemObject i:l){
+            if(i.getType()==0){
+                ArrayList<itemObject> temp=groupItems.get(topicName.get(0));
+                temp.add(i);
+            }else if(i.getType()==1){
+                ArrayList<itemObject> temp=groupItems.get(topicName.get(1));
+                temp.add(i);
+            }
+        }
+
     }
 
     public static void updateUi(){
@@ -61,21 +121,52 @@ public static LinearLayout cartBtn;
     }
 
     private void initializeViews() {
-        itemsLv=findViewById(R.id.item_list);
+        //itemsLv=findViewById(R.id.item_list);
+        explistview=findViewById(R.id.item_exp_list);
         cartBtn=findViewById(R.id.item_cartBtn);
     }
 
     private void fetchItems() {
-        itemList.add(new itemObject("1234","Pulses",25,100.0f,11220542L,0,null));
-        itemList.add(new itemObject("1235","Paste",65,120.0f,11220542L,0,null));
-        itemList.add(new itemObject("1236","Rice",10,160.0f,11220542L,0,null));
-        itemList.add(new itemObject("1237","Meat",54,170.0f,11220542L,0,null));
-        itemList.add(new itemObject("1238","Sauce",5,90.0f,11220542L,0,null));
-        itemList.add(new itemObject("1239","Vegies",80,80.0f,11220542L,0,null));
-        itemList.add(new itemObject("1212","Speices",15,150.0f,11220542L,0,null));
-        itemList.add(new itemObject("1233","Biscuits",26,140.0f,11220542L,0,null));
-        itemList.add(new itemObject("1239","Milk",98,200.0f,11220542L,0,null));
-        itemList.add(new itemObject("1245","Tea",1,260.0f,11220542L,0,null));
-        adapter.notifyDataSetChanged();
+        String url="https://ravilcartapi.herokuapp.com/getshopdetails/"+sid;
+        StringRequest request=new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try{
+                    JSONObject object=new JSONObject(response);
+                    JSONObject ars=object.getJSONObject("arrayOfShop");
+                    JSONArray itemArray=ars.getJSONArray("items");
+                    for(int i=0;i<itemArray.length();i++){
+                        JSONObject current=itemArray.getJSONObject(i);
+                        String iid=current.getString("_id");
+                        String itmName=current.getString("name");
+                        float price=Float.valueOf(current.getString("price"));
+                        int qty=current.getInt("quantity");
+                        String dt=current.getString("updatedAt");
+                        long timeStamp=0;
+                        int type=current.getInt("type");
+                        try {
+                            timeStamp=UtilityClass.getDate(dt);
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        itemObject obj=new itemObject(iid,itmName,qty,price,timeStamp,type,null);
+                        itemList.add(obj);
+
+                        shopName=ars.getString("name");
+                        shopAddress=ars.getString("address");
+
+                    }
+
+                }catch (JSONException e){
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("ItemActivity", "onErrorResponse: "+error.toString() );
+            }
+        });
+        queue.add(request);
     }
 }
