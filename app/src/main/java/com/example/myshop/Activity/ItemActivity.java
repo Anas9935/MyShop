@@ -49,6 +49,8 @@ itemExpandableListAdapter adapter2;
 
 RequestQueue queue;
 
+String shopName,shopAddress;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,6 +81,8 @@ RequestQueue queue;
                 Intent intent=new Intent(ItemActivity.this,CheckoutActivity.class);
                 intent.putExtra("sid",sid);
                 intent.putExtra("cart",cart);
+                intent.putExtra("shopName",shopName);
+                intent.putExtra("shopAddress",shopAddress);
                 startActivity(intent);
                 Log.e("CArtBtn", "onClick: "+cart.entrySet() );
             }
@@ -147,6 +151,10 @@ RequestQueue queue;
                         }
                         itemObject obj=new itemObject(iid,itmName,qty,price,timeStamp,type,null);
                         itemList.add(obj);
+
+                        shopName=ars.getString("name");
+                        shopAddress=ars.getString("address");
+
                     }
 
                 }catch (JSONException e){

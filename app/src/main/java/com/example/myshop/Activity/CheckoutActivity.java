@@ -1,16 +1,15 @@
 package com.example.myshop.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.ViewCompat;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.OvershootInterpolator;
-import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,7 +18,6 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.myshop.Adapters.CheckoutItemAdapter;
 import com.example.myshop.Objects.itemObject;
@@ -31,7 +29,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -45,7 +42,7 @@ public class CheckoutActivity extends AppCompatActivity {
     ArrayList<itemObject> itemList;
     CheckoutItemAdapter adapter;
 
-    TextView shop_name,shop_address,fullPrice,dilerveryPrice,totalPrice,changeAddressBtn,payBtn,codBtn,cardBtn;
+    TextView shop_name,shop_address,fullPrice, deliveryPrice,totalPrice,changeAddressBtn,payBtn,codBtn,cardBtn;
     ImageView shop_img;
     float grandTotal=0;
 
@@ -53,7 +50,8 @@ public class CheckoutActivity extends AppCompatActivity {
 
     RequestQueue queue;
 
-
+    ProgressBar progressBar;
+    String shopName,shopAddress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,8 +60,16 @@ public class CheckoutActivity extends AppCompatActivity {
 
         cart=(HashMap<String, Integer>) getIntent().getSerializableExtra("cart");
         sid=getIntent().getStringExtra("sid");
+        shopName=getIntent().getStringExtra("shopName");
+        shopAddress=getIntent().getStringExtra("shopAddress");
+        //updating shop details
+        shop_name.setText(shopName);
+        shop_address.setText(shopAddress);
+        
+
         //Log.e("checkout", "onCreate: "+cart );
         initializeViews();
+        progressBar.setVisibility(View.GONE);
         queue= Volley.newRequestQueue(this);
         itemList=new ArrayList<>();
         adapter=new CheckoutItemAdapter(itemList,this);
@@ -94,15 +100,15 @@ public class CheckoutActivity extends AppCompatActivity {
         codBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                progressBar.setVisibility(View.VISIBLE);
                 int otp=getOtp();
                 if(grandTotal!=0) {
                     saveNdUpdate(otp);
                     }
                 else{
                     Toast.makeText(CheckoutActivity.this, "Data is not loaded yet", Toast.LENGTH_SHORT).show();
+                    progressBar.setVisibility(View.GONE);
                 }
-
 
             }
         });
@@ -115,6 +121,7 @@ public class CheckoutActivity extends AppCompatActivity {
         });
         
     }
+
 
     private int getOtp() {
         Random random=new Random();
@@ -144,6 +151,7 @@ public class CheckoutActivity extends AppCompatActivity {
             jsonObject.put("timeOfOrder",System.currentTimeMillis());
         } catch (JSONException e) {
             e.printStackTrace();
+            progressBar.setVisibility(View.GONE);
         }
 
         String url="https://ravilcartapi.herokuapp.com/userorder";
@@ -159,6 +167,7 @@ public class CheckoutActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(CheckoutActivity.this, "OOPs!Something went wrong. Retry", Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.GONE);
             }
         });
         queue.add(req);
@@ -170,6 +179,7 @@ public class CheckoutActivity extends AppCompatActivity {
         intent.putExtra("payType",0);       //0->cod 1->card
         intent.putExtra("otp",otp);
         startActivity(intent);
+        progressBar.setVisibility(View.GONE);
         finish();
     }
 
@@ -197,7 +207,7 @@ public class CheckoutActivity extends AppCompatActivity {
         shop_name=findViewById(R.id.checkout_shop_name);
         shop_address=findViewById(R.id.checkout_shop_locality);
         fullPrice=findViewById(R.id.checkout_full_price);
-        dilerveryPrice=findViewById(R.id.checkout_deliveryPrice);
+        deliveryPrice =findViewById(R.id.checkout_deliveryPrice);
         totalPrice=findViewById(R.id.checkout_total_price);
         changeAddressBtn=findViewById(R.id.checkout_addressChangeBtn);
         payBtn=findViewById(R.id.checkout_payBtn);
@@ -205,6 +215,7 @@ public class CheckoutActivity extends AppCompatActivity {
         cardBtn=findViewById(R.id.checkout_cardBtn);
         itemListView=findViewById(R.id.checkout_item_listView);
         shop_img=findViewById(R.id.checkout_img);
+        progressBar=findViewById(R.id.checkout_progress_bar);
     }
     private void fetchList() {
         for(Map.Entry i:cart.entrySet()){
@@ -244,7 +255,7 @@ public class CheckoutActivity extends AppCompatActivity {
         }else{
             delivery=150;
         }
-        dilerveryPrice.setText(String.valueOf(delivery));
+        deliveryPrice.setText(String.valueOf(delivery));
         totalPrice.setText(String.valueOf(total+delivery));
         grandTotal=total+delivery;
 
