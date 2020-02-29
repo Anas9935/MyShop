@@ -1,4 +1,4 @@
-package com.example.myshop;
+package com.example.myshop.Activity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,6 +10,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+
+import com.example.myshop.R;
+import com.example.myshop.UserDetails;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -92,7 +95,8 @@ public class login_activity extends AppCompatActivity {
                                         Toast.makeText(login_activity.this, getString(R.string.auth_failed), Toast.LENGTH_LONG).show();
                                     }
                                 } else {
-                                    Intent i=new Intent(login_activity.this,MainActivity.class);
+                                    Intent i=new Intent(login_activity.this, DashboardActivity.class);
+                                    UserDetails.userID=auth.getUid();
                                     Toast.makeText(login_activity.this,"signed in", Toast.LENGTH_SHORT).show();
                                     startActivity(i);
                                     finish();

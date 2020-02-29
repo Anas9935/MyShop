@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/checkout_todo_itemName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Item Name"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginStart="16dp"
+        android:textColor="#000"
+        android:textStyle="bold"
+        />
+    <Space
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_weight="1"
+        />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@drawable/rectangle_border"
+        android:layout_marginEnd="32dp"
+        android:layout_gravity="center_vertical"
+            >
+            <TextView
+                android:id="@+id/checkout_todo_itemSub"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="-"
+                android:textStyle="bold"
+                android:textColor="#000"
+                android:paddingRight="8dp"
+                android:paddingLeft="8dp"
+                android:textSize="18sp"
+                android:layout_gravity="center_vertical"
+
+                />
+            <TextView
+                android:id="@+id/checkout_todo_itemQty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textSize="18sp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                />
+            <TextView
+                android:id="@+id/checkout_todo_itemSum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="+"
+                android:textStyle="bold"
+                android:paddingRight="8dp"
+                android:paddingLeft="8dp"
+                android:textColor="#000"
+                android:textSize="18sp"
+                android:layout_gravity="center_vertical"
+                />
+
+        </LinearLayout>
+    <TextView
+        android:id="@+id/checkout_todo_itemPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="₹50"
+        android:layout_marginEnd="16dp"
+        android:layout_gravity="center_vertical"
+        android:textColor="#000"
+        />
+
+</LinearLayout>

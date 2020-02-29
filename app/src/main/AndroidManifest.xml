@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.myshop">
-    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,16 +9,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".reset_password"></activity>
-        <activity android:name=".login_activity">
+        <activity android:name=".Activity.CheckoutActivity"></activity>
+        <activity android:name=".Activity.ItemActivity" />
+        <activity android:name=".Activity.signup2Activity" />
+        <activity android:name=".Activity.reset_password" />
+        <activity android:name=".Activity.login_activity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".signup_activity" ></activity>
-        <activity android:name=".MainActivity">
-        </activity>
+        <activity android:name=".Activity.signup_activity" />
+        <activity android:name=".Activity.DashboardActivity" />
     </application>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
 </manifest>
