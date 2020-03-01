@@ -5,14 +5,12 @@ public class messageObject {
     private int type;
     private String message;
     private long timestamp;
-
     public messageObject(String uid, int type, String message, long timestamp) {
         this.uid = uid;
         this.type = type;
         this.message = message;
         this.timestamp = timestamp;
     }
-
     public String getUid() {
         return uid;
     }

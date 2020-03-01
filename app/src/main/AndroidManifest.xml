@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.myshop">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,7 +12,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activity.BillActivity"></activity>
+        <activity android:name=".PastOrder"></activity>
+        <activity android:name=".Activity.BillActivity" />
+        <activity android:name=".Chat" />
         <activity android:name=".Activity.CheckoutActivity" />
         <activity android:name=".Activity.ItemActivity" />
         <activity android:name=".Activity.signup2Activity" />
@@ -24,8 +29,5 @@
         <activity android:name=".Activity.signup_activity" />
         <activity android:name=".Activity.DashboardActivity" />
     </application>
-    <uses-permission android:name="android.permission.INTERNET" />
-
-    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>
