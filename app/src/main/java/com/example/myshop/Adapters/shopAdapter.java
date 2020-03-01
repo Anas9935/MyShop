@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.view.LayoutInflater;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,10 +13,10 @@ import android.widget.PopupMenu;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.example.myshop.Chat;
+import com.example.myshop.Activity.Chat;
 import com.example.myshop.Objects.ShopObject;
 import com.example.myshop.R;
-import com.example.myshop.UserDetails;
+import com.example.myshop.Objects.UserDetails;
 
 import java.util.ArrayList;
 
@@ -74,6 +73,9 @@ public class shopAdapter extends BaseAdapter {
                             case R.id.dashboard_action_support:
                                 {
                                 //goto message box with usedid and shop id
+                                    Intent intent=new Intent(context,Chat.class);
+                                    intent.putExtra("sid",current.getSid());
+                                    context.startActivity(intent);
                                 break;
                             }
                             case R.id.dashboard_action_email:{

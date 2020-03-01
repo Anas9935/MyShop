@@ -17,31 +17,22 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/item_img"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_gravity="center_vertical"
-                tools:src="#f00"/>
-        <LinearLayout
-            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginStart="8dp"
+            >
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
             <TextView
-                android:text="Name:"
-                android:textStyle="Bold"
+                android:text="Shop:"
+                android:textStyle="bold"
                 android:textColor="#000"
-                android:textSize="15dp"
+                android:textSize="16sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp" />
+                android:layout_marginStart="8dp" />
 
             <TextView
                 android:id="@+id/item_name"
@@ -54,27 +45,8 @@
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
                 <TextView
-                    android:text="Order-Date:"
-                    android:textStyle="Bold"
-                    android:textColor="#000"
-                    android:textSize="15dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp" />
-
-                <TextView
-                    android:id="@+id/order_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp" />
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-                <TextView
-                    android:text="Quantity:"
-                    android:textStyle="Bold"
+                    android:text="Items:"
+                    android:textStyle="bold"
                     android:textColor="#000"
                     android:textSize="15dp"
                     android:layout_width="wrap_content"
@@ -93,7 +65,7 @@
                 android:orientation="horizontal">
                 <TextView
                     android:text="Amount:"
-                    android:textStyle="Bold"
+                    android:textStyle="bold"
                     android:textColor="#000"
                     android:textSize="15dp"
                     android:layout_width="wrap_content"
@@ -105,32 +77,56 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp" />
-                <Space
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="1dp"
-                    />
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="16dp"
-                    >
-                <TextView
-                    android:id="@+id/item_reorderBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="REORDER"
-                    android:textStyle="bold"
-                    android:paddingLeft="24dp"
-                    android:paddingRight="24dp"
-                    android:paddingTop="4dp"
-                    android:paddingBottom="4dp"
-                    android:background="@drawable/rectangle_border">
 
-                </TextView>
-                </RelativeLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+                <TextView
+                    android:text="Ordered At:"
+                    android:textStyle="bold"
+                    android:textColor="#000"
+                    android:textSize="15sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp" />
+
+                <TextView
+                    android:id="@+id/item_orderTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="OTP:"
+                    android:textSize="16sp"
+                    android:layout_marginStart="8dp"
+                    android:textStyle="bold"
+                    android:textColor="#000"
+                    />
+            <TextView
+                android:id="@+id/item_OTP"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="12345"
+                android:textStyle="bold"
+                android:paddingLeft="24dp"
+                android:paddingRight="24dp"
+               android:textSize="18sp"
+                android:textColor="#00BCD4"
+                >
+
+            </TextView>
             </LinearLayout>
         </LinearLayout>
-        </LinearLayout>
+
     </androidx.cardview.widget.CardView>
 </LinearLayout>

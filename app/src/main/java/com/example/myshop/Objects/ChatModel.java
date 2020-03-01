@@ -1,4 +1,4 @@
-package com.example.myshop;
+package com.example.myshop.Objects;
 
 public class ChatModel {
     public ChatModel(String message, String user) {

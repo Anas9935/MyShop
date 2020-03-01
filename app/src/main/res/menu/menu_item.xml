@@ -5,7 +5,11 @@
     tools:context=".Activity.ItemActivity">
 
     <item
-        android:id="@+id/action_CHAT"
-        android:title="CHAT"
-        app:showAsAction="always" />
+        android:id="@+id/action_myOrders"
+        android:title="My Orders"
+        />
+    <item
+        android:id="@+id/action_Signout"
+        android:title="Signout"
+        />
 </menu>

@@ -12,9 +12,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".PastOrder"></activity>
+        <activity android:name=".Activity.PastOrder"></activity>
         <activity android:name=".Activity.BillActivity" />
-        <activity android:name=".Chat" />
+        <activity android:name=".Activity.Chat" />
         <activity android:name=".Activity.CheckoutActivity" />
         <activity android:name=".Activity.ItemActivity" />
         <activity android:name=".Activity.signup2Activity" />

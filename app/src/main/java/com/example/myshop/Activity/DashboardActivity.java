@@ -1,9 +1,12 @@
 package com.example.myshop.Activity;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import android.app.DownloadManager;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -18,7 +21,8 @@ import com.android.volley.toolbox.Volley;
 import com.example.myshop.Adapters.shopAdapter;
 import com.example.myshop.Objects.ShopObject;
 import com.example.myshop.R;
-import com.example.myshop.UserDetails;
+import com.example.myshop.Objects.UserDetails;
+import com.google.firebase.auth.FirebaseAuth;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -113,5 +117,31 @@ public class DashboardActivity extends AppCompatActivity {
     private void initializeViews() {
         searchView=findViewById(R.id.dashboard_search);
         shop_list=findViewById(R.id.dashboard_list);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_item,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.action_myOrders:{
+                Intent intent=new Intent(DashboardActivity.this,PastOrder.class);
+                startActivity(intent);
+                break;
+            }
+            case R.id.action_Signout:{
+                FirebaseAuth.getInstance().signOut();
+                finish();
+                break;
+            }
+            default:{
+                return super.onOptionsItemSelected(item);
+            }
+        }
+        return true;
     }
 }

@@ -1,4 +1,5 @@
-package com.example.myshop;
+package com.example.myshop.Activity;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -8,13 +9,16 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 //import android.widget.Toolbar;
-import com.example.myshop.Activity.ItemActivity;
+import com.example.myshop.Objects.ChatModel;
+import com.example.myshop.R;
+import com.example.myshop.Objects.UserDetails;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -27,7 +31,6 @@ import java.util.Map;
 import java.util.Objects;
 
 import static android.view.ViewGroup.LayoutParams.FILL_PARENT;
-import static com.example.myshop.UserDetails.chatwithid;
 
 @SuppressWarnings("ALL")
 public class Chat extends AppCompatActivity {
@@ -51,11 +54,6 @@ public class Chat extends AppCompatActivity {
         chatRecView = (RecyclerView) findViewById(R.id.chat_recycler_view);
         chatwithid = getIntent().getStringExtra("sid");
 
-//            toolbar = (androidx.appcompat.widget.Toolbar) findViewById(R.id.chat_with_toolbar);
-//            setSupportActionBar(toolbar);
-//            Objects.requireNonNull(getSupportActionBar()).setTitle(res);
-//            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//            getSupportActionBar().setDisplayShowHomeEnabled(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setStackFromEnd(true);
         chatRecView.setHasFixedSize(true);
@@ -164,6 +162,8 @@ public class Chat extends AppCompatActivity {
                     messageRef.child(type1).setValue("none");
                     UserDetails.chatRef = FirebaseDatabase.getInstance().getReference("/messages").child(type1);
                 }
+
+
                 if (UserDetails.chatRef != null) {
                     FirebaseRecyclerAdapter<ChatModel, ChatViewHolder> firebaseRecyclerAdapter =
                             new FirebaseRecyclerAdapter<ChatModel, ChatViewHolder>(
@@ -178,7 +178,6 @@ public class Chat extends AppCompatActivity {
                                         type = Objects.equals(model.getUser(), UserDetails.userID);
                                     }
                                     viewHolder.setUserText(model.getUser(), type);
-
                                 }
                             };
                     chatRecView.setAdapter(firebaseRecyclerAdapter);
