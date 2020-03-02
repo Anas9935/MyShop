@@ -30,7 +30,9 @@
                     android:hint="@string/hint_email"
                     android:inputType="textEmailAddress"
                     android:textColor="@android:color/white"
-                    android:textColorHint="@android:color/white" />
+                    android:textColorHint="@android:color/white"
+                    android:text="aaansari9999@gmail.com"
+                    />
                 <EditText
                     android:id="@+id/password"
                     android:layout_width="fill_parent"
@@ -39,7 +41,9 @@
                     android:hint="@string/hint_password"
                     android:inputType="textPassword"
                     android:textColor="@android:color/white"
-                    android:textColorHint="@android:color/white" />
+                    android:textColorHint="@android:color/white"
+                    android:text="123456789"
+                    />
             <!-- Login Button -->
 
             <Button

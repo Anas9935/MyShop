@@ -2,6 +2,7 @@ package com.example.myshop.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -19,6 +20,7 @@ import com.example.myshop.R;
 import com.example.myshop.Objects.UserDetails;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class shopAdapter extends BaseAdapter {
     ArrayList<ShopObject> list;
@@ -53,13 +55,23 @@ public class shopAdapter extends BaseAdapter {
         TextView address=view.findViewById(R.id.shop_todo_address);
         RatingBar ratingBar=view.findViewById(R.id.shop_todo_rating_bar);
         ImageView menuBtn=view.findViewById(R.id.shop_todo_menuBtn);
+        TextView icon=view.findViewById(R.id.shop_todo_icon);
+
 
         final ShopObject current=list.get(i);
 
         name.setText(current.getShopName());
         String builder = current.getLocality() + ", " + current.getCity() +
                 ", " + current.getPincode();
-        address.setText(builder);
+        address.setText(current.getLocality());
+
+
+        icon.setText(String.valueOf(current.getShopName().charAt(0)));
+
+        Random rnd = new Random();
+        int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
+        icon.setTextColor(color);
+
 
         ratingBar.setRating(current.getRating());
         menuBtn.setOnClickListener(new View.OnClickListener() {
@@ -75,6 +87,7 @@ public class shopAdapter extends BaseAdapter {
                                 //goto message box with usedid and shop id
                                     Intent intent=new Intent(context,Chat.class);
                                     intent.putExtra("sid",current.getSid());
+                                    intent.putExtra("shopName",current.getShopName());
                                     context.startActivity(intent);
                                 break;
                             }
@@ -89,13 +102,6 @@ public class shopAdapter extends BaseAdapter {
                             }
                             case R.id.dashboard_action_Contact:{
                                 Intent intent=new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+current.getContact()));
-                                context.startActivity(intent);
-                                break;
-                            }
-                            case R.id.dashboard_action_Chat:
-                            {
-                                Intent intent =new Intent(context, Chat.class);
-                                intent.putExtra("sid", UserDetails.userID);
                                 context.startActivity(intent);
                                 break;
                             }

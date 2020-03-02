@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -44,6 +45,8 @@ public class DashboardActivity extends AppCompatActivity {
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
+
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         initializeViews();
         queue= Volley.newRequestQueue(this);
@@ -84,6 +87,7 @@ public class DashboardActivity extends AppCompatActivity {
                         double rat=0;
                         try{
                             rat=current.getDouble("rating");
+                            rat%=5;
                         }catch (JSONException e){
                             e.printStackTrace();
                         }

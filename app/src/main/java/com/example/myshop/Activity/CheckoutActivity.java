@@ -3,6 +3,7 @@ package com.example.myshop.Activity;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -43,7 +44,7 @@ public class CheckoutActivity extends AppCompatActivity {
     CheckoutItemAdapter adapter;
 
     TextView shop_name,shop_address,fullPrice, deliveryPrice,totalPrice,changeAddressBtn,payBtn,codBtn,cardBtn;
-    ImageView shop_img;
+    TextView shop_img;
     float grandTotal=0;
 
     boolean isPayOpened=false;
@@ -63,12 +64,17 @@ public class CheckoutActivity extends AppCompatActivity {
         shopName=getIntent().getStringExtra("shopName");
         shopAddress=getIntent().getStringExtra("shopAddress");
         //updating shop details
-        shop_name.setText(shopName);
-        shop_address.setText(shopAddress);
+        initializeViews();
+        shop_name.setText("ShopName");
+        shop_address.setText("shopAddress");
+        shop_img.setText(String.valueOf('A'));
+        Random rnd = new Random();
+        int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
+        shop_img.setTextColor(color);
         
 
         //Log.e("checkout", "onCreate: "+cart );
-        initializeViews();
+
         progressBar.setVisibility(View.GONE);
         queue= Volley.newRequestQueue(this);
         itemList=new ArrayList<>();

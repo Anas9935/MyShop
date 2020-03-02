@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.myshop.Activity.ItemActivity;
 import com.example.myshop.Objects.itemObject;
 import com.example.myshop.R;
@@ -17,15 +18,16 @@ import com.example.myshop.UtilityClass;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class itemExpandableListAdapter extends BaseExpandableListAdapter {
 
     ArrayList<String> groupName;
-    HashMap<String,ArrayList<itemObject>>  groupItems;
+    ConcurrentHashMap<String,ArrayList<itemObject>> groupItems;
     HashMap<String,Integer> cart;
     Context context;
 
-    public itemExpandableListAdapter(ArrayList<String> groupName, HashMap<String, ArrayList<itemObject>> groupItems, HashMap<String, Integer> cart, Context context) {
+    public itemExpandableListAdapter(ArrayList<String> groupName, ConcurrentHashMap<String, ArrayList<itemObject>> groupItems, HashMap<String, Integer> cart, Context context) {
         this.groupName = groupName;
         this.groupItems = groupItems;
         this.cart = cart;
@@ -102,6 +104,11 @@ public class itemExpandableListAdapter extends BaseExpandableListAdapter {
         stockSize.setText(String.valueOf(current.getQuantity()));
         DOM.setText(UtilityClass.getDate(current.getTimestamp()));
         price.setText(String.valueOf(current.getPrice()));
+        if(current.getImgUrl()!=null){
+            Glide.with(context)
+                    .load(current.getImgUrl())
+                    .into(img);
+        }
 
         try{
             quant[0]=cart.get(current.getIid());

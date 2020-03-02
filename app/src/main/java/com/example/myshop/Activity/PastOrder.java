@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -17,6 +18,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.myshop.Adapters.PastOrdersAdapter;
 import com.example.myshop.Objects.OrderObject;
 import com.example.myshop.R;
+import com.example.myshop.UtilityClass;
 import com.google.firebase.auth.FirebaseAuth;
 
 import org.json.JSONArray;
@@ -24,6 +26,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Method;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -96,10 +99,10 @@ public class PastOrder extends AppCompatActivity {
                         }else{
                             TOP=2;
                         }
-                        long time=123456789L;
-                        int otp=12345;
-                        int status=2;
-
+                        String timeInStr=current.getString("createdAt");
+                        long time= UtilityClass.getDate(timeInStr);
+                        int otp=current.getInt("otp");
+                        int status=current.getInt("status");
                         OrderObject obj=new OrderObject(oid,sid,cartObj,amt,TOP,time,otp,status,shopName);
                         list.add(obj);
                         adapter.notifyDataSetChanged();
@@ -107,6 +110,9 @@ public class PastOrder extends AppCompatActivity {
                     Collections.sort(list);
                 } catch (JSONException e) {
                     e.printStackTrace();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                    Toast.makeText(PastOrder.this, "TimeError", Toast.LENGTH_SHORT).show();
                 }
             }
         }, new Response.ErrorListener() {

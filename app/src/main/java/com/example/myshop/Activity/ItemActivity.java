@@ -19,6 +19,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.util.Util;
 import com.example.myshop.Adapters.itemAdapter;
 import com.example.myshop.Adapters.itemExpandableListAdapter;
 import com.example.myshop.Objects.itemObject;
@@ -32,6 +33,8 @@ import org.json.JSONObject;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class ItemActivity extends AppCompatActivity {
 String sid;
@@ -39,12 +42,12 @@ String sid;
 ListView itemsLv;
 ArrayList<itemObject> itemList;
 public static HashMap<String,Integer> cart;
-itemAdapter adapter;
+//itemAdapter adapter;
 public static LinearLayout cartBtn;
 
 ExpandableListView explistview;
 ArrayList<String> topicName;
-HashMap<String,ArrayList<itemObject>> groupItems;
+ConcurrentHashMap<String,ArrayList<itemObject>> groupItems;
 itemExpandableListAdapter adapter2;
 
 RequestQueue queue;
@@ -65,8 +68,8 @@ String shopName,shopAddress;
 //        adapter=new itemAdapter(itemList,this);
 
         topicName=new ArrayList<>();
-        groupItems=new HashMap<>();
-        helper();
+        groupItems=new ConcurrentHashMap<>();
+     //   helper();
 
         adapter2=new itemExpandableListAdapter(topicName,groupItems,cart,this);
         explistview.setAdapter(adapter2);
@@ -127,10 +130,12 @@ String shopName,shopAddress;
     }
 
     private void fetchItems() {
+
         String url="https://ravilcartapi.herokuapp.com/getshopdetails/"+sid;
         StringRequest request=new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                //Log.e("this", "onResponse: "+response );
                 try{
                     JSONObject object=new JSONObject(response);
                     JSONObject ars=object.getJSONObject("arrayOfShop");
@@ -144,21 +149,28 @@ String shopName,shopAddress;
                         String dt=current.getString("updatedAt");
                         long timeStamp=0;
                         int type=current.getInt("type");
+
                         try {
                             timeStamp=UtilityClass.getDate(dt);
                         } catch (ParseException e) {
                             e.printStackTrace();
                         }
-                        itemObject obj=new itemObject(iid,itmName,qty,price,timeStamp,type,null);
+                        String url=current.getString("url");
+                        itemObject obj=new itemObject(iid,itmName,qty,price,timeStamp,type,url);
                         itemList.add(obj);
+                        Log.e("this", "onResponse: "+obj.getIid() );
 
-                        shopName=ars.getString("name");
-                        shopAddress=ars.getString("address");
 
                     }
+                    shopName=ars.getString("name");
+                    shopAddress=ars.getString("address");
+
+                    postLoadList();
 
                 }catch (JSONException e){
                     e.printStackTrace();
+
+                    postLoadList();
                 }
             }
         }, new Response.ErrorListener() {
@@ -168,5 +180,28 @@ String shopName,shopAddress;
             }
         });
         queue.add(request);
+    }
+
+    private void postLoadList() {
+        topicName.addAll(UtilityClass.getCategories());
+        //ArrayList<itemObject> l= UtilityClass.getList();
+        itemList.addAll(UtilityClass.getList());
+        for(String i:topicName){
+            groupItems.put(i,new ArrayList<itemObject>());
+        }
+
+        for(itemObject i:itemList){
+            groupItems.get(topicName.get(i.getType())).add(i);
+        }
+        for(Map.Entry i:groupItems.entrySet()){
+            ArrayList<itemObject> tmp=(ArrayList<itemObject>) i.getValue();
+            if(tmp.size()==0){
+                groupItems.remove(i.getKey());
+                topicName.remove(i.getKey());
+                adapter2.notifyDataSetChanged();
+            }
+
+        }
+        adapter2.notifyDataSetChanged();
     }
 }

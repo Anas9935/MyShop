@@ -22,12 +22,15 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             >
-            <ImageView
+            <TextView
                 android:id="@+id/checkout_img"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:background="#f0fc"
                 android:layout_margin="8dp"
+                android:textSize="36sp"
+                android:textAllCaps="true"
+                android:textStyle="bold"
+                android:gravity="center"
                 />
             <TextView
                 android:id="@+id/checkout_shop_name"

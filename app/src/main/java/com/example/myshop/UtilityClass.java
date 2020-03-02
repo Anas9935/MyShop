@@ -32,5 +32,20 @@ public class UtilityClass {
         itemList.add(new itemObject("1245","Tea",1,260.0f,11220542L,0,null));
         return itemList;
     }
+    public static ArrayList<String> getCategories(){
+        ArrayList<String> catList=new ArrayList<>();
+        catList.add("One");
+        catList.add("Two");
+        catList.add("Three");
+        catList.add("Four");
+        catList.add("Five");
+        catList.add("Six");
+        catList.add("Seven");
+        catList.add("Eight");
+        catList.add("Nine");
+        catList.add("Ten");
+
+        return catList;
+    }
 
 }

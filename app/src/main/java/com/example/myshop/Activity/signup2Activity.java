@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,14 +43,21 @@ public class signup2Activity extends AppCompatActivity {
         email=getIntent().getStringExtra("email");
         initializeViews();
         queue= Volley.newRequestQueue(this);
-        if (saveData()){
-            Toast.makeText(this, "Save Data", Toast.LENGTH_SHORT).show();
-            Intent intent=new Intent(signup2Activity.this, DashboardActivity.class);
-            startActivity(intent);
-            finish();
-        }else{
-            Toast.makeText(this, "Data not saved Check the data", Toast.LENGTH_SHORT).show();
-        }
+
+        nextBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (saveData()){
+                    Toast.makeText(signup2Activity.this, "Save Data", Toast.LENGTH_SHORT).show();
+                    Intent intent=new Intent(signup2Activity.this, DashboardActivity.class);
+                    startActivity(intent);
+                    finish();
+                }else{
+                    Toast.makeText(signup2Activity.this, "Data not saved Check the data", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
     }
 
 

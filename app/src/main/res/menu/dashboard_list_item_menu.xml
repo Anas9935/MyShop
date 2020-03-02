@@ -12,8 +12,5 @@
         android:id="@+id/dashboard_action_Contact"
         android:title="Contact"
         />
-    <item
-        android:id="@+id/dashboard_action_Chat"
-        android:title="ChatUs"
-        />
+
 </menu>

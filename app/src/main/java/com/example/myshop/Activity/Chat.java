@@ -49,6 +49,9 @@ public class Chat extends AppCompatActivity {
         final EditText messageArea;
         String res="ShopOwner";
         Toolbar toolbar;
+        String shopName=getIntent().getStringExtra("shopName");
+        getSupportActionBar().setTitle("shopName");
+
         sendButton = (ImageView) findViewById(R.id.sendButton);
         messageArea = (EditText) findViewById(R.id.messageArea);
         chatRecView = (RecyclerView) findViewById(R.id.chat_recycler_view);
@@ -132,9 +135,7 @@ public class Chat extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        //Utils.intentWithClear(Chat.this, Users.class);
-        Intent i=new Intent(Chat.this, ItemActivity.class);
-        startActivity(i);
+        finish();
     }
 
     public void valueEventListener( final String checkChild) {

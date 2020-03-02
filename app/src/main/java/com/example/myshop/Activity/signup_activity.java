@@ -77,7 +77,6 @@ public class signup_activity extends AppCompatActivity
                                     intent.putExtra("uid",FirebaseAuth.getInstance().getUid());
                                     intent.putExtra("email",email);
                                     startActivity(intent);
-
                                     finish();
                                 }
                             }
